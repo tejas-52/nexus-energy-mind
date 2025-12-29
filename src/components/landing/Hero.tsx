@@ -61,7 +61,7 @@ export const Hero = () => {
             className="text-lg lg:text-xl text-[hsl(220_15%_65%)] max-w-2xl mx-auto mb-10 animate-fade-in-up"
             style={{ animationDelay: '200ms' }}
           >
-            Stop overpaying for electricity. Our smart app finds the best times to use energy, 
+            Stop overpaying for electricity. GreenMind AI finds the best times to use energy, 
             helps you sell extra power to neighbors, and saves you hundreds every month.
           </p>
 
@@ -120,7 +120,7 @@ export const Hero = () => {
                 </div>
                 <div className="flex-1 flex justify-center">
                   <div className="px-4 py-1 bg-[hsl(220_20%_12%)] rounded-lg text-xs text-[hsl(220_15%_50%)]">
-                    app.energyos.io/dashboard
+                    app.greenmind.ai/dashboard
                   </div>
                 </div>
               </div>
@@ -132,7 +132,7 @@ export const Hero = () => {
                     { label: 'Solar Generation', value: '24.5 kWh', color: 'from-accent to-orange-400' },
                     { label: 'Grid Usage', value: '3.2 kWh', color: 'from-blue-500 to-indigo-500' },
                     { label: 'Battery', value: '87%', color: 'from-purple-500 to-pink-500' },
-                    { label: 'Savings Today', value: '$12.40', color: 'from-primary to-cyan-400' },
+                    { label: 'Savings Today', value: '₹248', color: 'from-primary to-cyan-400' },
                   ].map((stat) => (
                     <div key={stat.label} className="bg-[hsl(220_25%_11%)] rounded-xl p-4 border border-[hsl(220_20%_15%)]">
                       <p className="text-xs text-[hsl(220_15%_50%)] mb-1">{stat.label}</p>

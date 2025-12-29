@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { LanguageToggle } from '@/components/LanguageToggle';
-import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { 
-  Zap, 
+  Leaf, 
   Menu, 
   X,
   LayoutDashboard,
@@ -23,16 +21,15 @@ export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
-  const { t } = useLanguage();
   const { user, signOut } = useAuth();
 
   const navLinks = [
-    { href: '/dashboard', labelKey: 'nav.dashboard', icon: LayoutDashboard },
-    { href: '/calculator', labelKey: 'nav.calculator', icon: Calculator },
-    { href: '/forecast', labelKey: 'nav.forecast', icon: Sun },
-    { href: '/marketplace', labelKey: 'nav.marketplace', icon: ShoppingCart },
-    { href: '/predictor', labelKey: 'nav.predictor', icon: Brain },
-    { href: '/subsidy', labelKey: 'nav.subsidy', icon: IndianRupee },
+    { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { href: '/calculator', label: 'Calculator', icon: Calculator },
+    { href: '/forecast', label: 'Forecast', icon: Sun },
+    { href: '/marketplace', label: 'Marketplace', icon: ShoppingCart },
+    { href: '/predictor', label: 'AI Predictor', icon: Brain },
+    { href: '/subsidy', label: 'Subsidy', icon: IndianRupee },
   ];
 
   useEffect(() => {
@@ -65,13 +62,13 @@ export const Header = () => {
           <Link to="/" className="flex items-center gap-2 group">
             <div className="relative">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center shadow-glow group-hover:shadow-[0_0_30px_hsl(var(--primary)/0.5)] transition-all duration-300">
-                <Zap className="w-5 h-5 text-primary-foreground" />
+                <Leaf className="w-5 h-5 text-primary-foreground" />
               </div>
               <div className="absolute -inset-1 bg-primary/20 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </div>
             <span className="font-display font-bold text-xl tracking-tight">
-              <span className="text-gradient-primary">Energy</span>
-              <span className="text-foreground">OS</span>
+              <span className="text-gradient-primary">GreenMind</span>
+              <span className="text-foreground"> AI</span>
             </span>
           </Link>
 
@@ -92,7 +89,7 @@ export const Header = () => {
                   )}
                 >
                   <Icon className="w-4 h-4" />
-                  {t(link.labelKey)}
+                  {link.label}
                 </Link>
               );
             })}
@@ -100,8 +97,6 @@ export const Header = () => {
 
           {/* Right Side */}
           <div className="flex items-center gap-2">
-            <LanguageToggle />
-            
             {user ? (
               <div className="hidden sm:flex items-center gap-2">
                 <Button variant="ghost" size="sm" asChild>
@@ -116,7 +111,7 @@ export const Header = () => {
               </div>
             ) : (
               <Button variant="hero" size="default" asChild className="hidden sm:flex">
-                <Link to="/auth">{t('nav.login')}</Link>
+                <Link to="/auth">Login</Link>
               </Button>
             )}
 
@@ -152,7 +147,7 @@ export const Header = () => {
                     )}
                   >
                     <Icon className="w-5 h-5" />
-                    {t(link.labelKey)}
+                    {link.label}
                   </Link>
                 );
               })}
@@ -165,13 +160,13 @@ export const Header = () => {
                   </div>
                   <Button variant="outline" className="mx-4" onClick={handleSignOut}>
                     <LogOut className="w-4 h-4 mr-2" />
-                    {t('nav.logout')}
+                    Logout
                   </Button>
                 </>
               ) : (
                 <Button variant="hero" className="mt-4 mx-4" asChild>
                   <Link to="/auth" onClick={() => setIsMobileMenuOpen(false)}>
-                    {t('nav.login')}
+                    Login
                   </Link>
                 </Button>
               )}

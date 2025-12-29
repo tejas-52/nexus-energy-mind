@@ -8,8 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/contexts/AuthContext';
-import { useLanguage } from '@/contexts/LanguageContext';
-import { Zap, Mail, Lock, Loader2, Sun } from 'lucide-react';
+import { Leaf, Mail, Lock, Loader2, Sun } from 'lucide-react';
 import { z } from 'zod';
 
 const emailSchema = z.string().email('Invalid email address');
@@ -19,7 +18,6 @@ const Auth = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const { user, signIn, signUp, loading: authLoading } = useAuth();
-  const { t } = useLanguage();
   
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
@@ -40,17 +38,17 @@ const Auth = () => {
     try {
       emailSchema.parse(email);
     } catch (e) {
-      newErrors.email = 'कृपया वैध ईमेल दर्ज करें / Please enter a valid email';
+      newErrors.email = 'Please enter a valid email';
     }
     
     try {
       passwordSchema.parse(password);
     } catch (e) {
-      newErrors.password = 'पासवर्ड कम से कम 6 अक्षरों का होना चाहिए / Password must be at least 6 characters';
+      newErrors.password = 'Password must be at least 6 characters';
     }
     
     if (!isLogin && password !== confirmPassword) {
-      newErrors.confirmPassword = 'पासवर्ड मेल नहीं खाते / Passwords do not match';
+      newErrors.confirmPassword = 'Passwords do not match';
     }
     
     setErrors(newErrors);
@@ -70,21 +68,21 @@ const Auth = () => {
         if (error) {
           if (error.message.includes('Invalid login credentials')) {
             toast({
-              title: "लॉगिन विफल / Login Failed",
-              description: "गलत ईमेल या पासवर्ड / Incorrect email or password",
+              title: "Login Failed",
+              description: "Incorrect email or password",
               variant: "destructive",
             });
           } else {
             toast({
-              title: "त्रुटि / Error",
+              title: "Error",
               description: error.message,
               variant: "destructive",
             });
           }
         } else {
           toast({
-            title: "स्वागत है! / Welcome!",
-            description: "सफलतापूर्वक लॉग इन / Successfully logged in",
+            title: "Welcome!",
+            description: "Successfully logged in",
           });
           navigate('/dashboard');
         }
@@ -93,21 +91,21 @@ const Auth = () => {
         if (error) {
           if (error.message.includes('already registered')) {
             toast({
-              title: "खाता मौजूद है / Account Exists",
-              description: "यह ईमेल पहले से पंजीकृत है / This email is already registered",
+              title: "Account Exists",
+              description: "This email is already registered",
               variant: "destructive",
             });
           } else {
             toast({
-              title: "त्रुटि / Error",
+              title: "Error",
               description: error.message,
               variant: "destructive",
             });
           }
         } else {
           toast({
-            title: "खाता बनाया गया! / Account Created!",
-            description: "आप अब लॉग इन कर सकते हैं / You can now log in",
+            title: "Account Created!",
+            description: "You can now log in",
           });
           navigate('/dashboard');
         }
@@ -133,21 +131,21 @@ const Auth = () => {
           {/* Logo */}
           <div className="flex items-center justify-center gap-2 mb-8">
             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center">
-              <Zap className="w-6 h-6 text-primary-foreground" />
+              <Leaf className="w-6 h-6 text-primary-foreground" />
             </div>
             <span className="font-display font-bold text-2xl">
-              <span className="text-gradient-primary">Energy</span>
-              <span className="text-foreground">OS</span>
+              <span className="text-gradient-primary">GreenMind</span>
+              <span className="text-foreground"> AI</span>
             </span>
           </div>
 
           {/* Title */}
           <div className="text-center mb-8">
             <h1 className="font-display text-2xl font-bold mb-2">
-              {isLogin ? t('auth.welcome') : t('auth.createAccount')}
+              {isLogin ? 'Welcome Back' : 'Create Account'}
             </h1>
             <p className="text-muted-foreground text-sm">
-              {isLogin ? t('auth.loginDesc') : t('auth.signupDesc')}
+              {isLogin ? 'Login to access your dashboard' : 'Sign up to start saving energy'}
             </p>
           </div>
 
@@ -156,7 +154,7 @@ const Auth = () => {
             <div className="space-y-2">
               <Label htmlFor="email" className="flex items-center gap-2">
                 <Mail className="w-4 h-4" />
-                {t('auth.email')} / ईमेल
+                Email
               </Label>
               <Input
                 id="email"
@@ -174,7 +172,7 @@ const Auth = () => {
             <div className="space-y-2">
               <Label htmlFor="password" className="flex items-center gap-2">
                 <Lock className="w-4 h-4" />
-                {t('auth.password')} / पासवर्ड
+                Password
               </Label>
               <Input
                 id="password"
@@ -193,7 +191,7 @@ const Auth = () => {
               <div className="space-y-2">
                 <Label htmlFor="confirmPassword" className="flex items-center gap-2">
                   <Lock className="w-4 h-4" />
-                  {t('auth.confirmPassword')} / पासवर्ड की पुष्टि
+                  Confirm Password
                 </Label>
                 <Input
                   id="confirmPassword"
@@ -219,12 +217,12 @@ const Auth = () => {
               {isLoading ? (
                 <>
                   <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                  {t('common.loading')}
+                  Loading...
                 </>
               ) : (
                 <>
                   <Sun className="w-5 h-5 mr-2" />
-                  {isLogin ? t('auth.login') : t('auth.signup')}
+                  {isLogin ? 'Login' : 'Sign Up'}
                 </>
               )}
             </Button>
@@ -233,7 +231,7 @@ const Auth = () => {
           {/* Toggle */}
           <div className="mt-6 text-center">
             <p className="text-sm text-muted-foreground">
-              {isLogin ? t('auth.noAccount') : t('auth.haveAccount')}{' '}
+              {isLogin ? "Don't have an account?" : 'Already have an account?'}{' '}
               <button
                 type="button"
                 onClick={() => {
@@ -242,7 +240,7 @@ const Auth = () => {
                 }}
                 className="text-primary hover:underline font-medium"
               >
-                {isLogin ? t('auth.signup') : t('auth.login')}
+                {isLogin ? 'Sign Up' : 'Login'}
               </button>
             </p>
           </div>
@@ -250,20 +248,20 @@ const Auth = () => {
           {/* Benefits */}
           <div className="mt-8 pt-6 border-t border-border">
             <p className="text-xs text-muted-foreground text-center mb-4">
-              साइन अप करने के फायदे / Benefits of signing up:
+              Benefits of signing up:
             </p>
             <ul className="space-y-2 text-xs text-muted-foreground">
               <li className="flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                भविष्यवाणी इतिहास सहेजें / Save prediction history
+                Save prediction history
               </li>
               <li className="flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                ऊर्जा बाज़ार में व्यापार करें / Trade on energy marketplace
+                Trade on energy marketplace
               </li>
               <li className="flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                व्यक्तिगत डैशबोर्ड / Personalized dashboard
+                Personalized dashboard
               </li>
             </ul>
           </div>
