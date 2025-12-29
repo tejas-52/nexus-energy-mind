@@ -9,7 +9,8 @@ import {
   Calculator,
   Sun,
   ShoppingCart,
-  Settings
+  Settings,
+  Brain
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -18,6 +19,7 @@ const navLinks = [
   { href: '/calculator', label: 'Calculator', icon: Calculator },
   { href: '/forecast', label: 'Forecast', icon: Sun },
   { href: '/marketplace', label: 'Marketplace', icon: ShoppingCart },
+  { href: '/predictor', label: 'AI Predictor', icon: Brain },
 ];
 
 export const Header = () => {

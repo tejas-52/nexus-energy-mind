@@ -7,7 +7,7 @@ import { Check, Zap } from 'lucide-react';
 const plans = [
   {
     name: 'Starter',
-    price: '$0',
+    price: '₹0',
     period: '/month',
     description: 'Great for trying out the basics',
     features: [
@@ -23,7 +23,7 @@ const plans = [
   },
   {
     name: 'Pro',
-    price: '$9.99',
+    price: '₹499',
     period: '/month',
     description: 'Best value for most homes',
     features: [
@@ -40,7 +40,7 @@ const plans = [
   },
   {
     name: 'Family',
-    price: '$19.99',
+    price: '₹999',
     period: '/month',
     description: 'For multiple properties or larger homes',
     features: [
@@ -69,7 +69,7 @@ export const Pricing = () => {
             Plans That <span className="text-gradient-primary">Pay for Themselves</span>
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Most Pro users save $200+/month — that's 20x the subscription cost. Start free, upgrade when you're ready.
+            Most Pro users save ₹15,000+/month — that's 30x the subscription cost. Start free, upgrade when you're ready.
           </p>
         </div>
 
