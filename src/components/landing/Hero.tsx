@@ -43,7 +43,7 @@ export const Hero = () => {
           {/* Badge */}
           <Badge variant="energy" className="mb-6 animate-fade-in">
             <Sparkles className="w-3 h-3 mr-1" />
-            AI-Powered Energy Intelligence Platform
+            Used by 10,000+ Homeowners
           </Badge>
 
           {/* Headline */}
@@ -51,9 +51,9 @@ export const Hero = () => {
             className="font-display text-4xl sm:text-5xl lg:text-7xl font-bold leading-tight mb-6 animate-fade-in-up text-[hsl(210_20%_95%)]"
             style={{ animationDelay: '100ms' }}
           >
-            The Future of
+            Cut Your Energy Bills
             <br />
-            <span className="text-gradient-primary">Decentralized Energy</span>
+            <span className="text-gradient-primary">By Up to 70%</span>
           </h1>
 
           {/* Subheadline */}
@@ -61,8 +61,8 @@ export const Hero = () => {
             className="text-lg lg:text-xl text-[hsl(220_15%_65%)] max-w-2xl mx-auto mb-10 animate-fade-in-up"
             style={{ animationDelay: '200ms' }}
           >
-            Generate, optimize, and trade renewable energy with AI. 
-            Track your savings, earn carbon credits, and power a sustainable future.
+            Stop overpaying for electricity. Our smart app finds the best times to use energy, 
+            helps you sell extra power to neighbors, and saves you hundreds every month.
           </p>
 
           {/* CTAs */}
@@ -72,13 +72,15 @@ export const Hero = () => {
           >
             <Button variant="hero" size="xl" asChild>
               <Link to="/dashboard">
-                Launch Dashboard
+                Start Saving Now — It's Free
                 <ArrowRight className="w-5 h-5 ml-1" />
               </Link>
             </Button>
-            <Button variant="hero-outline" size="xl" className="text-[hsl(210_20%_90%)]">
-              <Play className="w-5 h-5 mr-1" />
-              Watch Demo
+            <Button variant="hero-outline" size="xl" className="text-[hsl(210_20%_90%)]" asChild>
+              <Link to="/calculator">
+                <Play className="w-5 h-5 mr-1" />
+                Calculate My Savings
+              </Link>
             </Button>
           </div>
 
@@ -87,10 +89,10 @@ export const Hero = () => {
             className="animate-fade-in-up"
             style={{ animationDelay: '400ms' }}
           >
-            <p className="text-sm text-[hsl(220_15%_50%)] mb-4">Trusted by forward-thinking energy companies</p>
-            <div className="flex items-center justify-center gap-8 lg:gap-12 opacity-50">
-              {['Tesla', 'SunPower', 'Enphase', 'SolarEdge', 'Sunrun'].map((company) => (
-                <span key={company} className="font-display font-semibold text-[hsl(220_15%_60%)] text-sm lg:text-base">
+            <p className="text-sm text-[hsl(220_15%_50%)] mb-4">Works with all major solar & smart home brands</p>
+            <div className="flex items-center justify-center flex-wrap gap-6 lg:gap-10 opacity-60">
+              {['Tesla Powerwall', 'SunPower', 'Enphase', 'Nest', 'Ecobee'].map((company) => (
+                <span key={company} className="font-display font-medium text-[hsl(220_15%_60%)] text-xs lg:text-sm">
                   {company}
                 </span>
               ))}

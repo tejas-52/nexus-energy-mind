@@ -6,54 +6,52 @@ import { Check, Zap } from 'lucide-react';
 
 const plans = [
   {
-    name: 'Free',
+    name: 'Starter',
     price: '$0',
     period: '/month',
-    description: 'Perfect for getting started with solar tracking',
+    description: 'Great for trying out the basics',
     features: [
-      'Basic energy dashboard',
-      'Solar generation tracking',
-      '7-day forecast',
-      'Carbon offset tracking',
-      'Community support',
+      'See your energy usage in real-time',
+      'Basic savings tips',
+      '7-day weather forecast',
+      'Track your environmental impact',
+      'Email support',
     ],
-    cta: 'Get Started',
+    cta: 'Start Free',
     variant: 'outline' as const,
     popular: false,
   },
   {
     name: 'Pro',
-    price: '$29',
+    price: '$9.99',
     period: '/month',
-    description: 'For serious energy optimizers and traders',
+    description: 'Best value for most homes',
     features: [
-      'Everything in Free',
-      'AI-powered recommendations',
-      'Smart automation engine',
-      'P2P marketplace access',
-      'Digital twin simulation',
-      'Advanced analytics',
-      'Priority support',
+      'Everything in Starter',
+      'AI-powered money-saving tips',
+      'Automatic scheduling for appliances',
+      'Sell energy to neighbors',
+      'Detailed savings reports',
+      'Priority chat support',
     ],
-    cta: 'Start Pro Trial',
+    cta: 'Try Pro Free for 14 Days',
     variant: 'hero' as const,
     popular: true,
   },
   {
-    name: 'Enterprise',
-    price: 'Custom',
-    period: '',
-    description: 'For organizations with complex energy needs',
+    name: 'Family',
+    price: '$19.99',
+    period: '/month',
+    description: 'For multiple properties or larger homes',
     features: [
       'Everything in Pro',
-      'Unlimited users & locations',
-      'Custom API integrations',
-      'White-label options',
-      'ESG compliance reports',
-      'Dedicated account manager',
-      'SLA guarantee',
+      'Up to 5 properties',
+      'Family member accounts',
+      'Phone support',
+      'Personalized energy consultation',
+      'Advanced automation rules',
     ],
-    cta: 'Contact Sales',
+    cta: 'Start Family Plan',
     variant: 'outline' as const,
     popular: false,
   },
@@ -61,18 +59,17 @@ const plans = [
 
 export const Pricing = () => {
   return (
-    <section className="relative py-20 lg:py-32">
+    <section className="relative py-20 lg:py-32 bg-secondary/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <Badge variant="energy" className="mb-4">
-            <Zap className="w-3 h-3 mr-1" />
-            Simple Pricing
-          </Badge>
-          <h2 className="font-display text-3xl lg:text-5xl font-bold mb-4">
-            Choose Your <span className="text-gradient-primary">Energy Plan</span>
+          <span className="text-primary font-medium text-sm uppercase tracking-wider mb-3 block">
+            Pricing
+          </span>
+          <h2 className="font-display text-3xl lg:text-5xl font-bold mb-4 text-foreground">
+            Plans That <span className="text-gradient-primary">Pay for Themselves</span>
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Start free and upgrade as you grow. All plans include our core energy tracking features.
+            Most Pro users save $200+/month — that's 20x the subscription cost. Start free, upgrade when you're ready.
           </p>
         </div>
 
