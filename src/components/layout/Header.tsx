@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { LanguageToggle } from '@/components/LanguageToggle';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { 
   Zap, 
   Menu, 
@@ -9,23 +12,28 @@ import {
   Calculator,
   Sun,
   ShoppingCart,
-  Settings,
-  Brain
+  Brain,
+  IndianRupee,
+  User,
+  LogOut
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-
-const navLinks = [
-  { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/calculator', label: 'Calculator', icon: Calculator },
-  { href: '/forecast', label: 'Forecast', icon: Sun },
-  { href: '/marketplace', label: 'Marketplace', icon: ShoppingCart },
-  { href: '/predictor', label: 'AI Predictor', icon: Brain },
-];
 
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { t } = useLanguage();
+  const { user, signOut } = useAuth();
+
+  const navLinks = [
+    { href: '/dashboard', labelKey: 'nav.dashboard', icon: LayoutDashboard },
+    { href: '/calculator', labelKey: 'nav.calculator', icon: Calculator },
+    { href: '/forecast', labelKey: 'nav.forecast', icon: Sun },
+    { href: '/marketplace', labelKey: 'nav.marketplace', icon: ShoppingCart },
+    { href: '/predictor', labelKey: 'nav.predictor', icon: Brain },
+    { href: '/subsidy', labelKey: 'nav.subsidy', icon: IndianRupee },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,6 +44,11 @@ export const Header = () => {
   }, []);
 
   const isLandingPage = location.pathname === '/';
+
+  const handleSignOut = async () => {
+    await signOut();
+    setIsMobileMenuOpen(false);
+  };
 
   return (
     <header
@@ -72,27 +85,40 @@ export const Header = () => {
                   key={link.href}
                   to={link.href}
                   className={cn(
-                    "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200",
+                    "flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200",
                     isActive
                       ? "bg-primary/10 text-primary"
                       : "text-muted-foreground hover:text-foreground hover:bg-secondary"
                   )}
                 >
                   <Icon className="w-4 h-4" />
-                  {link.label}
+                  {t(link.labelKey)}
                 </Link>
               );
             })}
           </nav>
 
           {/* Right Side */}
-          <div className="flex items-center gap-3">
-            <Button variant="ghost" size="icon" className="hidden lg:flex">
-              <Settings className="w-5 h-5" />
-            </Button>
-            <Button variant="hero" size="default" asChild className="hidden sm:flex">
-              <Link to="/dashboard">Get Started</Link>
-            </Button>
+          <div className="flex items-center gap-2">
+            <LanguageToggle />
+            
+            {user ? (
+              <div className="hidden sm:flex items-center gap-2">
+                <Button variant="ghost" size="sm" asChild>
+                  <Link to="/dashboard" className="flex items-center gap-2">
+                    <User className="w-4 h-4" />
+                    <span className="max-w-[100px] truncate">{user.email?.split('@')[0]}</span>
+                  </Link>
+                </Button>
+                <Button variant="ghost" size="icon" onClick={handleSignOut}>
+                  <LogOut className="w-4 h-4" />
+                </Button>
+              </div>
+            ) : (
+              <Button variant="hero" size="default" asChild className="hidden sm:flex">
+                <Link to="/auth">{t('nav.login')}</Link>
+              </Button>
+            )}
 
             {/* Mobile Menu Toggle */}
             <Button
@@ -126,13 +152,29 @@ export const Header = () => {
                     )}
                   >
                     <Icon className="w-5 h-5" />
-                    {link.label}
+                    {t(link.labelKey)}
                   </Link>
                 );
               })}
-              <Button variant="hero" className="mt-4" asChild>
-                <Link to="/dashboard">Get Started</Link>
-              </Button>
+              
+              {user ? (
+                <>
+                  <div className="border-t border-border my-2" />
+                  <div className="px-4 py-2 text-sm text-muted-foreground">
+                    {user.email}
+                  </div>
+                  <Button variant="outline" className="mx-4" onClick={handleSignOut}>
+                    <LogOut className="w-4 h-4 mr-2" />
+                    {t('nav.logout')}
+                  </Button>
+                </>
+              ) : (
+                <Button variant="hero" className="mt-4 mx-4" asChild>
+                  <Link to="/auth" onClick={() => setIsMobileMenuOpen(false)}>
+                    {t('nav.login')}
+                  </Link>
+                </Button>
+              )}
             </nav>
           </div>
         )}

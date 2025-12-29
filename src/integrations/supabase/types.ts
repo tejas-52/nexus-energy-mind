@@ -329,6 +329,66 @@ export type Database = {
         }
         Relationships: []
       }
+      prediction_history: {
+        Row: {
+          carbon_offset: number
+          cloud_cover: number
+          created_at: string
+          daily_generation: number
+          id: string
+          location: string | null
+          monthly_generation: number
+          monthly_savings: number
+          panel_capacity_watts: number
+          panel_count: number
+          panel_efficiency: number
+          panel_tilt: number
+          sunlight_hours: number
+          temperature: number
+          user_id: string
+          yearly_estimate: number
+          yearly_savings: number
+        }
+        Insert: {
+          carbon_offset: number
+          cloud_cover: number
+          created_at?: string
+          daily_generation: number
+          id?: string
+          location?: string | null
+          monthly_generation: number
+          monthly_savings: number
+          panel_capacity_watts: number
+          panel_count: number
+          panel_efficiency: number
+          panel_tilt: number
+          sunlight_hours: number
+          temperature: number
+          user_id: string
+          yearly_estimate: number
+          yearly_savings: number
+        }
+        Update: {
+          carbon_offset?: number
+          cloud_cover?: number
+          created_at?: string
+          daily_generation?: number
+          id?: string
+          location?: string | null
+          monthly_generation?: number
+          monthly_savings?: number
+          panel_capacity_watts?: number
+          panel_count?: number
+          panel_efficiency?: number
+          panel_tilt?: number
+          sunlight_hours?: number
+          temperature?: number
+          user_id?: string
+          yearly_estimate?: number
+          yearly_savings?: number
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
