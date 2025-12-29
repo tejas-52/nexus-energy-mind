@@ -1,0 +1,87 @@
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+};
+
+serve(async (req) => {
+  if (req.method === 'OPTIONS') {
+    return new Response(null, { headers: corsHeaders });
+  }
+
+  try {
+    const { messages } = await req.json();
+    const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
+    
+    if (!LOVABLE_API_KEY) {
+      throw new Error('LOVABLE_API_KEY is not configured');
+    }
+
+    const systemPrompt = `You are GreenMind AI, an expert assistant for solar energy, renewable energy, and sustainability. You help users with:
+
+1. **Energy Saving Tips**: Provide actionable advice to reduce electricity consumption
+2. **Solar Panel Guidance**: Help with sizing, installation, maintenance, and optimization
+3. **Cost Calculations**: Estimate savings, ROI, and payback periods
+4. **Government Subsidies**: Inform about available solar subsidies in India (PM Surya Ghar, state schemes)
+5. **P2P Energy Trading**: Explain how peer-to-peer energy marketplaces work
+6. **Environmental Impact**: Calculate carbon footprint reduction
+
+Be concise, friendly, and use bullet points when listing information. If calculations are needed, show the math. Always encourage sustainable practices.
+
+Current context: This is a solar energy management platform called GreenMind AI that helps users predict energy generation, trade surplus energy, and track carbon credits.`;
+
+    console.log('Sending request to Lovable AI Gateway...');
+    
+    const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${LOVABLE_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'google/gemini-2.5-flash',
+        messages: [
+          { role: 'system', content: systemPrompt },
+          ...messages,
+        ],
+        stream: true,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('AI Gateway error:', response.status, errorText);
+      
+      if (response.status === 429) {
+        return new Response(JSON.stringify({ error: 'Rate limit exceeded. Please try again in a moment.' }), {
+          status: 429,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
+      if (response.status === 402) {
+        return new Response(JSON.stringify({ error: 'AI credits exhausted. Please contact support.' }), {
+          status: 402,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
+      
+      return new Response(JSON.stringify({ error: 'AI service error' }), {
+        status: 500,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    return new Response(response.body, {
+      headers: { ...corsHeaders, 'Content-Type': 'text/event-stream' },
+    });
+
+  } catch (error) {
+    console.error('Energy chat error:', error);
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    return new Response(JSON.stringify({ error: message }), {
+      status: 500,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    });
+  }
+});
