@@ -13,33 +13,16 @@ import {
   Brain, 
   Sun, 
   Thermometer, 
-  MapPin, 
+  Search,
   Zap, 
   IndianRupee, 
   Leaf, 
   TrendingUp,
   Loader2,
   Lightbulb,
-  CloudSun
+  CloudSun,
+  MapPin
 } from 'lucide-react';
-
-const indianCities = [
-  { name: 'Delhi', sunlightHours: 5.5, avgTemp: 32 },
-  { name: 'Mumbai', sunlightHours: 5.0, avgTemp: 30 },
-  { name: 'Bangalore', sunlightHours: 5.8, avgTemp: 26 },
-  { name: 'Chennai', sunlightHours: 5.3, avgTemp: 32 },
-  { name: 'Kolkata', sunlightHours: 4.8, avgTemp: 30 },
-  { name: 'Hyderabad', sunlightHours: 5.6, avgTemp: 30 },
-  { name: 'Pune', sunlightHours: 5.5, avgTemp: 28 },
-  { name: 'Ahmedabad', sunlightHours: 6.0, avgTemp: 34 },
-  { name: 'Jaipur', sunlightHours: 6.2, avgTemp: 33 },
-  { name: 'Jodhpur', sunlightHours: 6.5, avgTemp: 35 },
-  { name: 'Lucknow', sunlightHours: 5.2, avgTemp: 31 },
-  { name: 'Chandigarh', sunlightHours: 5.4, avgTemp: 29 },
-  { name: 'Bhopal', sunlightHours: 5.5, avgTemp: 30 },
-  { name: 'Nagpur', sunlightHours: 5.7, avgTemp: 32 },
-  { name: 'Coimbatore', sunlightHours: 5.4, avgTemp: 28 },
-];
 
 const months = [
   'January', 'February', 'March', 'April', 'May', 'June',
@@ -59,22 +42,81 @@ interface Prediction {
   confidence: number;
 }
 
+interface WeatherData {
+  city: string;
+  temperature: number;
+  feelsLike: number;
+  humidity: number;
+  cloudCover: number;
+  description: string;
+  sunlightHours: number;
+}
+
 const EnergyPredictor = () => {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const [isSearchingWeather, setIsSearchingWeather] = useState(false);
   const [prediction, setPrediction] = useState<Prediction | null>(null);
+  const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
   
   // Form state
   const [panelCount, setPanelCount] = useState(10);
   const [panelCapacity, setPanelCapacity] = useState(400);
   const [panelEfficiency, setPanelEfficiency] = useState(20);
   const [panelTilt, setPanelTilt] = useState(28);
-  const [selectedCity, setSelectedCity] = useState('Delhi');
   const [temperature, setTemperature] = useState(32);
+  const [sunlightHours, setSunlightHours] = useState(5.5);
   const [cloudCover, setCloudCover] = useState(20);
   const [selectedMonth, setSelectedMonth] = useState('Average');
+  const [citySearch, setCitySearch] = useState('');
 
-  const cityData = indianCities.find(c => c.name === selectedCity) || indianCities[0];
+  const handleCitySearch = async () => {
+    if (!citySearch.trim()) {
+      toast({
+        title: "Enter City Name",
+        description: "Please enter a city name to search",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsSearchingWeather(true);
+    try {
+      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/get-weather`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+        },
+        body: JSON.stringify({ city: citySearch }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to fetch weather');
+      }
+
+      const data = await response.json();
+      setWeatherData(data);
+      setTemperature(data.temperature);
+      setSunlightHours(data.sunlightHours);
+      setCloudCover(data.cloudCover);
+      
+      toast({
+        title: "Weather Data Loaded",
+        description: `Current temperature in ${data.city}: ${data.temperature}°C`,
+      });
+    } catch (error) {
+      console.error('Weather search error:', error);
+      toast({
+        title: "City Not Found",
+        description: error instanceof Error ? error.message : "Could not find weather data for this city",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSearchingWeather(false);
+    }
+  };
 
   const handlePredict = async () => {
     setIsLoading(true);
@@ -93,9 +135,9 @@ const EnergyPredictor = () => {
           panelEfficiency,
           panelTilt,
           panelOrientation: 180,
-          location: `${selectedCity}, India`,
+          location: weatherData?.city || 'India',
           temperature,
-          sunlightHours: cityData.sunlightHours,
+          sunlightHours,
           cloudCover,
           month: selectedMonth,
         }),
@@ -155,8 +197,8 @@ const EnergyPredictor = () => {
             Solar Energy <span className="text-gradient-primary">Predictor</span>
           </h1>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Get AI-powered predictions for your solar panel setup based on Indian weather patterns, 
-            location-specific irradiance data, and your panel specifications.
+            Get AI-powered predictions for your solar panel setup. Enter your location or temperature 
+            manually to see accurate energy generation estimates.
           </p>
         </div>
 
@@ -169,28 +211,39 @@ const EnergyPredictor = () => {
             </h2>
 
             <div className="space-y-6">
-              {/* Location */}
+              {/* City Search */}
               <div className="space-y-2">
                 <Label className="flex items-center gap-2">
                   <MapPin className="w-4 h-4" />
-                  City
+                  Search City (Get Live Weather)
                 </Label>
-                <Select value={selectedCity} onValueChange={(v) => {
-                  setSelectedCity(v);
-                  const city = indianCities.find(c => c.name === v);
-                  if (city) setTemperature(city.avgTemp);
-                }}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select city" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {indianCities.map(city => (
-                      <SelectItem key={city.name} value={city.name}>
-                        {city.name} ({city.sunlightHours}h sunlight)
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <div className="flex gap-2">
+                  <Input
+                    placeholder="Enter city name (e.g., Delhi, Mumbai)"
+                    value={citySearch}
+                    onChange={(e) => setCitySearch(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && handleCitySearch()}
+                  />
+                  <Button 
+                    variant="outline" 
+                    onClick={handleCitySearch}
+                    disabled={isSearchingWeather}
+                  >
+                    {isSearchingWeather ? (
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <Search className="w-4 h-4" />
+                    )}
+                  </Button>
+                </div>
+                {weatherData && (
+                  <div className="bg-accent/10 rounded-lg p-3 mt-2">
+                    <p className="text-sm font-medium text-accent">{weatherData.city}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {weatherData.temperature}°C • {weatherData.description} • {weatherData.sunlightHours}h sunlight
+                    </p>
+                  </div>
+                )}
               </div>
 
               {/* Panel Count */}
@@ -253,21 +306,60 @@ const EnergyPredictor = () => {
                 />
               </div>
 
-              {/* Temperature */}
+              {/* Temperature - Manual Entry */}
               <div className="space-y-3">
-                <div className="flex justify-between">
+                <div className="flex justify-between items-center">
                   <Label className="flex items-center gap-2">
                     <Thermometer className="w-4 h-4" />
-                    Average Temperature
+                    Temperature (Manual Entry)
                   </Label>
-                  <span className="text-sm font-medium text-primary">{temperature}°C</span>
+                  <div className="flex items-center gap-2">
+                    <Input
+                      type="number"
+                      value={temperature}
+                      onChange={(e) => setTemperature(Number(e.target.value))}
+                      className="w-20 h-8 text-center"
+                      min={0}
+                      max={55}
+                    />
+                    <span className="text-sm text-muted-foreground">°C</span>
+                  </div>
                 </div>
                 <Slider
                   value={[temperature]}
                   onValueChange={([v]) => setTemperature(v)}
-                  min={15}
-                  max={50}
+                  min={0}
+                  max={55}
                   step={1}
+                />
+              </div>
+
+              {/* Sunlight Hours */}
+              <div className="space-y-3">
+                <div className="flex justify-between items-center">
+                  <Label className="flex items-center gap-2">
+                    <Sun className="w-4 h-4" />
+                    Sunlight Hours/Day
+                  </Label>
+                  <div className="flex items-center gap-2">
+                    <Input
+                      type="number"
+                      value={sunlightHours}
+                      onChange={(e) => setSunlightHours(Number(e.target.value))}
+                      className="w-20 h-8 text-center"
+                      min={1}
+                      max={14}
+                      step={0.5}
+                    />
+                    <span className="text-sm text-muted-foreground">hrs</span>
+                  </div>
+                </div>
+                <Slider
+                  value={[sunlightHours]}
+                  onValueChange={([v]) => setSunlightHours(v)}
+                  min={1}
+                  max={14}
+                  step={0.5}
                 />
               </div>
 
@@ -440,10 +532,39 @@ const EnergyPredictor = () => {
                 <h3 className="font-display text-xl font-semibold mb-2">Ready to Predict</h3>
                 <p className="text-muted-foreground max-w-sm mx-auto">
                   Configure your solar panel setup on the left and click "Predict" to get 
-                  AI-powered energy generation estimates tailored for Indian conditions.
+                  AI-powered energy generation estimates.
                 </p>
+                <div className="mt-6 p-4 bg-secondary/30 rounded-lg">
+                  <p className="text-sm text-muted-foreground">
+                    <strong>Tip:</strong> Search for your city to get live temperature and weather data, 
+                    or enter temperature manually for custom calculations.
+                  </p>
+                </div>
               </Card>
             )}
+
+            {/* Info Card */}
+            <Card variant="glass" className="p-6">
+              <h3 className="font-display font-semibold mb-3">How It Works</h3>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li className="flex items-start gap-2">
+                  <span className="text-primary">1.</span>
+                  Search your city for live weather or enter temperature manually
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-primary">2.</span>
+                  Configure your solar panel specifications
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-primary">3.</span>
+                  Our AI analyzes weather patterns & solar irradiance
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-primary">4.</span>
+                  Get accurate predictions with savings in ₹ (INR)
+                </li>
+              </ul>
+            </Card>
           </div>
         </div>
       </main>
