@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Zap, Twitter, Linkedin, Github, Mail } from 'lucide-react';
+import { Leaf, Twitter, Linkedin, Github, Mail } from 'lucide-react';
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -34,7 +34,7 @@ export const Footer = () => {
     { icon: Twitter, href: 'https://twitter.com', label: 'Twitter' },
     { icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
     { icon: Github, href: 'https://github.com', label: 'GitHub' },
-    { icon: Mail, href: 'mailto:hello@energyos.io', label: 'Email' },
+    { icon: Mail, href: 'mailto:hello@greenmind.ai', label: 'Email' },
   ];
 
   return (
@@ -45,11 +45,11 @@ export const Footer = () => {
           <div className="col-span-2 md:col-span-3 lg:col-span-2">
             <Link to="/" className="flex items-center gap-2 mb-4">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center shadow-glow">
-                <Zap className="w-5 h-5 text-primary-foreground" />
+                <Leaf className="w-5 h-5 text-primary-foreground" />
               </div>
               <span className="font-display font-bold text-xl tracking-tight">
-                <span className="text-gradient-primary">Energy</span>
-                <span className="text-foreground">OS</span>
+                <span className="text-gradient-primary">GreenMind</span>
+                <span className="text-foreground"> AI</span>
               </span>
             </Link>
             <p className="text-muted-foreground text-sm max-w-xs mb-6">
@@ -144,7 +144,7 @@ export const Footer = () => {
         {/* Bottom */}
         <div className="mt-12 pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground">
-            © {currentYear} EnergyOS. All rights reserved.
+            © {currentYear} GreenMind AI. All rights reserved.
           </p>
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <span className="inline-block w-2 h-2 rounded-full bg-primary animate-pulse" />
