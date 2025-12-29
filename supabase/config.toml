@@ -1,1 +1,4 @@
 project_id = "viuacbsbfhipwlebodhq"
+
+[functions.predict-energy]
+verify_jwt = false

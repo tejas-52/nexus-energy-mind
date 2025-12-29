@@ -28,8 +28,8 @@ const stats = [
   },
   {
     icon: TrendingUp,
-    value: 45892,
-    prefix: '$',
+    value: 38245892,
+    prefix: '₹',
     label: 'Total Savings',
     color: 'text-blue-500',
     bgColor: 'bg-blue-500/10',

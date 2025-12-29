@@ -8,6 +8,7 @@ import Dashboard from "./pages/Dashboard";
 import Calculator from "./pages/Calculator";
 import Forecast from "./pages/Forecast";
 import Marketplace from "./pages/Marketplace";
+import EnergyPredictor from "./pages/EnergyPredictor";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/calculator" element={<Calculator />} />
           <Route path="/forecast" element={<Forecast />} />
           <Route path="/marketplace" element={<Marketplace />} />
+          <Route path="/predictor" element={<EnergyPredictor />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

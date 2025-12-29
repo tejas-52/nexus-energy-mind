@@ -5,8 +5,8 @@ const benefits = [
   {
     icon: DollarSign,
     title: 'Save Up to 70% on Bills',
-    description: 'Our users save an average of $200/month on their electricity bills by optimizing when they use energy.',
-    stat: '$2,400+',
+    description: 'Our users save an average of ₹15,000/month on their electricity bills by optimizing when they use energy.',
+    stat: '₹1,80,000+',
     statLabel: 'Yearly savings',
   },
   {
@@ -26,7 +26,7 @@ const benefits = [
   {
     icon: Shield,
     title: 'Energy Independence',
-    description: 'Less reliance on the grid means protection from price hikes and blackouts. Your power, your control.',
+    description: 'Less reliance on the grid means protection from price hikes and power cuts. Your power, your control.',
     stat: '90%',
     statLabel: 'Grid independence',
   },
@@ -40,9 +40,9 @@ const benefits = [
   {
     icon: Users,
     title: 'Join a Community',
-    description: 'Connect with neighbors, share energy tips, and be part of the clean energy movement in your area.',
-    stat: '10K+',
-    statLabel: 'Active users',
+    description: 'Connect with neighbors across India, share energy tips, and be part of the clean energy movement.',
+    stat: '50K+',
+    statLabel: 'Active users in India',
   },
 ];
 
