@@ -23,32 +23,32 @@ export const CTA = () => {
           </div>
           
           <h2 className="font-display text-3xl lg:text-5xl font-bold mb-6 text-[hsl(210_20%_95%)]">
-            Ready to Power Your
+            Ready to Start
             <br />
-            <span className="text-gradient-primary">Sustainable Future?</span>
+            <span className="text-gradient-primary">Saving Money?</span>
           </h2>
           
           <p className="text-lg text-[hsl(220_15%_65%)] mb-10 max-w-xl mx-auto">
-            Join thousands of energy-conscious users who are already saving money 
-            and reducing their carbon footprint with EnergyOS.
+            Join 10,000+ homeowners who have already cut their energy bills 
+            and started earning from their excess power.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Button variant="hero" size="xl" asChild>
               <Link to="/dashboard">
-                Start Free Today
+                Get Started Free
                 <ArrowRight className="w-5 h-5 ml-1" />
               </Link>
             </Button>
             <Button variant="hero-outline" size="xl" className="text-[hsl(210_20%_90%)]" asChild>
               <Link to="/calculator">
-                Try Solar Calculator
+                See How Much I Can Save
               </Link>
             </Button>
           </div>
 
           <p className="mt-6 text-sm text-[hsl(220_15%_50%)]">
-            No credit card required • Free forever plan available
+            ✓ No credit card required • ✓ 5 minute setup • ✓ Cancel anytime
           </p>
         </div>
       </div>

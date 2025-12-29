@@ -3,89 +3,61 @@ import {
   Calculator, 
   Sun, 
   Brain, 
-  Cpu, 
   ShoppingCart,
   Home,
   PiggyBank,
-  Leaf,
-  Shield,
-  Zap,
-  BarChart3
+  Leaf
 } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 
 const features = [
   {
     icon: LayoutDashboard,
-    title: 'Energy Command Center',
-    description: 'Real-time visualization of generation, consumption, storage, and grid usage with AI-powered insights.',
+    title: 'See Everything at a Glance',
+    description: 'One simple screen shows how much energy you\'re making, using, and saving — updated in real-time.',
     color: 'from-primary to-cyan-400',
   },
   {
     icon: Calculator,
-    title: 'Solar Calculator',
-    description: 'Advanced calculations based on location, panel specs, weather data, and optimization suggestions.',
+    title: 'Know Before You Buy',
+    description: 'Thinking about solar? See exactly how much you\'d save based on your location and roof before spending a dime.',
     color: 'from-accent to-orange-400',
   },
   {
     icon: Sun,
-    title: '7-Day Forecast',
-    description: 'Weather-aware energy predictions with confidence intervals and risk alerts for low generation days.',
+    title: 'Weather-Smart Planning',
+    description: 'Get alerts before cloudy days so you can plan ahead. No surprises on your energy bill.',
     color: 'from-yellow-400 to-amber-500',
   },
   {
     icon: Brain,
-    title: 'AI Co-Pilot',
-    description: 'Explainable AI that suggests when to sell, store, or use energy with reasoned recommendations.',
+    title: 'Smart Recommendations',
+    description: '"Run your dryer now to use free solar power" — helpful tips that save money without the guesswork.',
     color: 'from-purple-500 to-pink-500',
   },
   {
-    icon: Cpu,
-    title: 'Digital Twin',
-    description: 'Virtual replica of your energy setup for simulations, forecasting, and automation decisions.',
-    color: 'from-blue-500 to-indigo-500',
-  },
-  {
     icon: ShoppingCart,
-    title: 'P2P Marketplace',
-    description: 'Buy and sell surplus energy locally with dynamic pricing and smart matching algorithms.',
+    title: 'Sell to Your Neighbors',
+    description: 'Extra solar power? Sell it locally at better rates than the utility company pays. Earn real money.',
     color: 'from-green-500 to-emerald-400',
   },
   {
     icon: Home,
-    title: 'Smart Home Control',
-    description: 'Energy-aware device control, scheduling, and load balancing for optimal efficiency.',
+    title: 'Control Your Home',
+    description: 'Schedule your AC, water heater, and appliances to run when electricity is cheapest. Set it and forget it.',
     color: 'from-rose-500 to-red-400',
   },
   {
     icon: PiggyBank,
-    title: 'ROI Analytics',
-    description: 'Track monthly savings, payback period, and long-term profit projections.',
+    title: 'Track Your Savings',
+    description: 'See exactly how much money you\'ve saved this week, month, and year. Watch your investment pay off.',
     color: 'from-cyan-500 to-teal-400',
   },
   {
     icon: Leaf,
-    title: 'Carbon Credits',
-    description: 'CO₂ offset tracking, environmental impact scores, and ESG-ready sustainability reports.',
+    title: 'Feel Good About It',
+    description: 'Track the trees you\'ve saved and CO₂ you\'ve avoided. Share your environmental impact with friends.',
     color: 'from-lime-500 to-green-500',
-  },
-  {
-    icon: Zap,
-    title: 'Automation Engine',
-    description: 'Visual IF-THEN rules that run automatically based on energy conditions and forecasts.',
-    color: 'from-primary to-teal-400',
-  },
-  {
-    icon: BarChart3,
-    title: 'Advanced Analytics',
-    description: 'Daily, monthly, and yearly trends with interactive charts and exportable reports.',
-    color: 'from-violet-500 to-purple-400',
-  },
-  {
-    icon: Shield,
-    title: 'Enterprise Security',
-    description: 'Role-based access, secure transactions, and scalable cloud-ready architecture.',
-    color: 'from-slate-500 to-gray-600',
   },
 ];
 
@@ -94,11 +66,14 @@ export const Features = () => {
     <section className="relative py-20 lg:py-32 bg-secondary/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="font-display text-3xl lg:text-5xl font-bold mb-4">
-            Complete <span className="text-gradient-primary">Energy Intelligence</span>
+          <span className="text-primary font-medium text-sm uppercase tracking-wider mb-3 block">
+            Everything You Need
+          </span>
+          <h2 className="font-display text-3xl lg:text-5xl font-bold mb-4 text-foreground">
+            Simple Tools, <span className="text-gradient-primary">Big Savings</span>
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Everything you need to generate, optimize, trade, and track your energy in one unified platform.
+            No engineering degree required. Our app makes saving money on energy as easy as checking the weather.
           </p>
         </div>
 
